@@ -43,14 +43,20 @@ class DeliveryDrone(FlyingRobot):
         super().__init__(name, weight, coords)
         self.max_load_weight = max_load_weight
         self.current_load = None
+
         if isinstance(current_load, Cargo):
             self.hook_load(current_load)
+        elif isinstance(current_load, list) and all(isinstance(c, Cargo) for c in current_load):
+            for cargo in current_load:
+                self.hook_load(cargo)
 
     def hook_load(self, cargo):
+        if not isinstance(cargo, Cargo):
+            raise TypeError("Only Cargo objects can be loaded.")
+
         if self.current_load is None and cargo.weight <= self.max_load_weight:
             self.current_load = cargo
 
     def unhook_load(self):
+        """Removes cargo by setting current_load to None."""
         self.current_load = None
-
-

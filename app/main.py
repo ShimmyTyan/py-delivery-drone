@@ -8,16 +8,16 @@ class BaseRobot:
         self.weight = weight
         self.coords = coords if coords is not None else [0, 0]
 
-    def go_forward(self, step = 1):
+    def go_forward(self, step=1):
         self.coords[1] += step
 
-    def go_back(self, step = 1):
+    def go_back(self, step=1):
         self.coords[1] -= step
 
-    def go_right(self, step = 1):
+    def go_right(self, step=1):
         self.coords[0] += step
 
-    def go_left(self, step = 1):
+    def go_left(self, step=1):
         self.coords[0] -= step
 
     def get_info(self):
@@ -31,32 +31,22 @@ class FlyingRobot(BaseRobot):
         super().__init__(name, weight, coords)
 
 
-    def go_up(self, step = 1):
+    def go_up(self, step=1):
         self.coords[2] += step
 
-    def go_down(self, step = 1):
+    def go_down(self, step=1):
         self.coords[2] -= step
 
 
 class DeliveryDrone(FlyingRobot):
-    def __init__(self, name, weight, coords=None, max_load_weight=0, current_load=None):
+    def __init__(self, name, weight, coords=None, max_load_weight=0, current_load: Cargo = None):
         super().__init__(name, weight, coords)
         self.max_load_weight = max_load_weight
-        self.current_load = None
+        self.current_load = current_load
 
-        if isinstance(current_load, Cargo):
-            self.hook_load(current_load)
-        elif isinstance(current_load, list) and all(isinstance(c, Cargo) for c in current_load):
-            for cargo in current_load:
-                self.hook_load(cargo)
-
-    def hook_load(self, cargo):
-        if not isinstance(cargo, Cargo):
-            raise TypeError("Only Cargo objects can be loaded.")
-
+    def hook_load(self, cargo: Cargo):
         if self.current_load is None and cargo.weight <= self.max_load_weight:
             self.current_load = cargo
 
     def unhook_load(self):
-        """Removes cargo by setting current_load to None."""
         self.current_load = None

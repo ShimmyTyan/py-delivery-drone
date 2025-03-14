@@ -38,8 +38,8 @@ class FlyingRobot(BaseRobot):
         self.coords[2] -= step
 
 
-class DeliveryDrone(FlyingRobot)-> None:
-    def __init__(self, name, weight, coords=None, max_load_weight=0, current_load: Cargo = None):
+class DeliveryDrone(FlyingRobot):
+    def __init__(self, name, weight, coords=None, max_load_weight=0, current_load: Cargo = None) ->:
         super().__init__(name, weight, coords)
         self.max_load_weight = max_load_weight
         self.current_load = current_load

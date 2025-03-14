@@ -25,7 +25,7 @@ class BaseRobot:
     def go_left(self, step = 1)-> None:
         self.coords[0] -= step
 
-    def get_info(self)-> str:
+    def get_info(self) -> str:
         return f"Robot: {self.name}, Weight: {self.weight}"
 
 
@@ -50,7 +50,7 @@ class DeliveryDrone(FlyingRobot):
                  name: str,
                  weight: int,
                  max_load_weight: int,
-                 coords: list|None = None,
+                 coords: list | None = None,
                  current_load: Cargo | None = None
                  ) -> None:
         super().__init__(name, weight, coords)
@@ -59,10 +59,9 @@ class DeliveryDrone(FlyingRobot):
         if isinstance(current_load, Cargo):
             self.hook_load(current_load)
 
-    def hook_load(self, cargo: Cargo)-> None:
+    def hook_load(self, cargo: Cargo) -> None:
         if self.current_load is None and cargo.weight <= self.max_load_weight:
             self.current_load = cargo
 
     def unhook_load(self) -> None:
         self.current_load = None
-
